@@ -25,12 +25,12 @@ let counter = 1;
 app.post("/api/shorturl", async function(req, res) {
   try {
     const { url } = req.body;
-    const { origin, host } = new URL(url);
+    const { href, host } = new URL(url);
 
-    if(references.has(origin)) {
+    if(references.has(href)) {
       return res.json({
-        original_url: origin, 
-        short_url: references.get(origin) 
+        original_url: href, 
+        short_url: references.get(href) 
       });
     }
     
@@ -41,11 +41,11 @@ app.post("/api/shorturl", async function(req, res) {
       });
     }
     
-    urls.set(counter, origin);
-    references.set(origin, counter);
+    urls.set(counter, href);
+    references.set(href, counter);
   
     return res.json({
-      original_url: origin, 
+      original_url: href, 
       short_url : counter++
     });
   } catch(error) {
